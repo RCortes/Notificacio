@@ -1,0 +1,15 @@
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Push_Notification.exe.config
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Push_Notification.exe
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Push_Notification.pdb
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Apple.dll
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Core.dll
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Newtonsoft.Json.dll
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Apple.pdb
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Core.pdb
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Newtonsoft.Json.xml
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\obj\Debug\Push_Notification.csprojResolveAssemblyReference.cache
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\obj\Debug\Push_Notification.exe
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\obj\Debug\Push_Notification.pdb
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Certificados.p12
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Android.dll
+\\psf\Home\Desktop\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Android.pdb
