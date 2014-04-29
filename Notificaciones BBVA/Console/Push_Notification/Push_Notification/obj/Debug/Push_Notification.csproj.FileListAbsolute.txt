@@ -19,8 +19,4 @@ Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notific
 Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Certificados.p12
 Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Push_Notification.exe
 Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Push_Notification.pdb
-Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\Newtonsoft.Json.xml
-Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Android.pdb
-Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Apple.pdb
-Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\bin\Debug\PushSharp.Core.pdb
 Z:\Github\Notificacio\Notificaciones BBVA\Console\Push_Notification\Push_Notification\obj\Debug\Push_Notification.csprojResolveAssemblyReference.cache

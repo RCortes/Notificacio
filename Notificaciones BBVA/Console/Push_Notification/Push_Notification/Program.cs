@@ -10,13 +10,17 @@ using PushSharp.Android;
 using PushSharp.Core;
 using System.Data.SqlClient;
 using System.Data;
+using System.Xml;
 
 
 namespace Push_Notification
 {
     class Program
     {
-       
+        static int enviado = 0;
+        static int error = 0;
+        static int i = 0;
+        static XmlNodeList Notificaciones;
 
         static void Main(string[] args)
         {
@@ -32,39 +36,43 @@ namespace Push_Notification
             push.OnChannelDestroyed += ChannelDestroyed;
 
 
+            XmlDocument data = new XmlDocument();
+            data.Load("http://localhost:49167/Service1.svc/NotificationAll/0");
+            Notificaciones = data.GetElementsByTagName("Notification");
+            int total = Notificaciones.Count;
 
-
-
-            ////  APPLE
             var appleCert = File.ReadAllBytes(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Certificados.p12"));
-            push.RegisterAppleService(new ApplePushChannelSettings(false, appleCert, "q1w2e3r4")); 
+            push.RegisterAppleService(new ApplePushChannelSettings(false, appleCert, "q1w2e3r4"));
 
-            for (int i = 0; i < 10; i++)
+            for(i = 0; i < total-1; i++)
             {
-                push.QueueNotification(new AppleNotification()
-                                           .ForDeviceToken("3290a71fec3cbb5baaf13dda7b465b82d7f4c552e9a8f69daf9f2679afb6b74d")
-                                           .WithAlert("Hello, how are you? " + i)
-                                           .WithBadge(-1)
-                                           .WithSound("sound.caf"));
 
+
+                if (Notificaciones[i].ChildNodes[4].InnerText == "iOS")
+                {
+                    ////  APPLE
+                   
+                      
+                        push.QueueNotification(new AppleNotification()
+                                                   .ForDeviceToken(Notificaciones[i].ChildNodes[9].InnerText)
+                                                   .WithAlert(Notificaciones[i].ChildNodes[3].InnerText + " " + Notificaciones[i].ChildNodes[8].InnerText + " " + Notificaciones[i].ChildNodes[6].InnerText)
+                                                   .WithBadge(-1)
+                                                   .WithSound("sound.caf"));
+                        
+                    
+
+                }else if(Notificaciones[i].ChildNodes[4].InnerText == "Android"){
+
+
+
+                }
                 
-               
-            }
-
-
-            //// ANDROID
-
-            for (int i = 0; i < 10; i++)
-            {
-                push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyBbsQnPByBI484hHMLOC_FRLowkIKqlWO0"));
-                push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("APA91bHlrbYHS9T-fKoFHYXejLitdKjpQTE0W46p_UqOjpfQcFPPOiiAaEScmWdq_CfsOTgGRScuzOA7TNDYI7BYqgdE3_YkFJncsE3qIDeeuX75CWhco_h6iMnqA7_jO-W9ldxyqL6qxC2pZbE73QYSiS1X6htmuQ").ForDeviceRegistrationId("APA91bHlrbYHS9T-fKoFHYXejLitdKjpQTE0W46p_UqOjpfQcFPPOiiAaEScmWdq_CfsOTgGRScuzOA7TNDYI7BYqgdE3_YkFJncsE3qIDeeuX75CWhco_h6iMnqA7_jO-W9ldxyqL6qxC2pZbE73QYSiS1X6htmuQ")
-                                .WithJson("{\"alert\":\"Hello CHE!\",\"badge\":7,\"sound\":\"sound.caf\"}"));
-
-
             }
             Console.WriteLine("Waiting for Queue to Finish...");
             push.StopAllServices();
+            Console.WriteLine("enviados: " + enviado + " perdidos: " + error);
             Console.WriteLine("Queue Finished, press return to exit...");
+
             Console.ReadLine();	
         }
 
@@ -77,11 +85,17 @@ namespace Push_Notification
 		static void NotificationSent(object sender, INotification notification)
 		{
 			Console.WriteLine("Sent: " + sender + " -> " + notification);
-		}
+            enviado = enviado + 1;
+            Console.WriteLine("Sent: " +Notificaciones[i].ChildNodes[9].InnerText);
+           // System.Threading.Thread.Sleep(1000);
+        }
 
 		static void NotificationFailed(object sender, INotification notification, Exception notificationFailureException)
 		{
 			Console.WriteLine("Failure: " + sender + " -> " + notificationFailureException.Message + " -> " + notification);
+            error = error + 1;
+            Console.WriteLine("Error:" + Notificaciones[i].ChildNodes[9].InnerText);
+           // System.Threading.Thread.Sleep(1000);
 		}
 
 		static void ChannelException(object sender, IPushChannel channel, Exception exception)
