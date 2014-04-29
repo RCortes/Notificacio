@@ -132,6 +132,12 @@ namespace Connection_PushBBVA
             string status = "";
             string IdUser = "";
             string IdDevice = "";
+            string token = "3290a71fec3cbb5baaf13dda7b465b82d7f4c552e9a8f69daf9f2679afb6b74d";
+            string plataforma = "1";
+            string firstName = "Alexis";
+            string lastName = "Diaz";
+            string appVersion = "1.0";
+            string appId = "1.0";
 
             string sql = @"SELECT COUNT(*) FROM Users WHERE rut = @usuario";
 
@@ -144,16 +150,15 @@ namespace Connection_PushBBVA
                     count = Convert.ToInt32(command.ExecuteScalar());
 
                     if (count == 0)
-                    {
-                        
+                    {                        
                             string createUser = @"INSERT INTO Users (firstName, lastName, rut, creation, status)
                                                  VALUES (@firstName, @lastName, @rut, @creation, @status)";
 
                             using (SqlConnection conn2 = new SqlConnection(connectionString: conex))
                             {
                                 SqlCommand command2 = new SqlCommand(createUser, conn2);
-                                command2.Parameters.AddWithValue("@firstName", "Rodolfo");
-                                command2.Parameters.AddWithValue("@lastName", "Cortes");
+                                command2.Parameters.AddWithValue("@firstName", firstName);
+                                command2.Parameters.AddWithValue("@lastName", lastName);
                                 command2.Parameters.AddWithValue("@rut", user);
                                 command2.Parameters.AddWithValue("@creation", DateTime.Now);
                                 command2.Parameters.AddWithValue("@status", 1);
@@ -185,12 +190,12 @@ namespace Connection_PushBBVA
                             using (SqlConnection conn4 = new SqlConnection(connectionString: conex))
                             {
                                 SqlCommand command4 = new SqlCommand(createDevice, conn4);
-                                command4.Parameters.AddWithValue("@token", "3290a71fec3cbb5baaf13dda7b465b82d7f4c552e9a8f69daf9f2679afb6b74d");
-                                command4.Parameters.AddWithValue("@appId", "1.0");
-                                command4.Parameters.AddWithValue("@appVersion", "1.0");
+                                command4.Parameters.AddWithValue("@token", token);
+                                command4.Parameters.AddWithValue("@appId", appId);
+                                command4.Parameters.AddWithValue("@appVersion", appVersion);
                                 command4.Parameters.AddWithValue("@creation", DateTime.Now);
                                 command4.Parameters.AddWithValue("@status", 1);
-                                command4.Parameters.AddWithValue("@idPlataform", 1);
+                                command4.Parameters.AddWithValue("@idPlataform", plataforma);
                                 conn4.Open();
                                 command4.ExecuteScalar();
                             }
@@ -200,7 +205,7 @@ namespace Connection_PushBBVA
                             using (SqlConnection conn5 = new SqlConnection(connectionString: conex))
                             {
                                 SqlCommand command5 = new SqlCommand(selectDevice, conn5);
-                                command5.Parameters.AddWithValue("@token", "3290a71fec3cbb5baaf13dda7b465b82d7f4c552e9a8f69daf9f2679afb6b74d");
+                                command5.Parameters.AddWithValue("@token", token);
                                 conn5.Open();
 
                                 SqlDataAdapter daAdaptador = new SqlDataAdapter(command5);
@@ -257,13 +262,186 @@ namespace Connection_PushBBVA
                     }
                     else 
                     {
-                        status = "the user id already exists.";
+                        status = "Error";
                     }
              
 
             }
 
             return status;
+        
+        }
+
+        public static List<Data_PushBBVA.Notification> List(string rut, string type){
+
+
+            string sql = @"SELECT N.idNotification, N.status, NT.idNotificationType ,  N.creation, N.delivery, U.firstName, U.lastName, U.rut, NT.title, NT.text, D.token, P.description 
+                            FROM dbo.Notification N, dbo.Users U, dbo.NotificationType NT, dbo.Device D, dbo.Plataform P
+                            WHERE P.idPlataform = D.idPlataform  AND D.idDevice = N.idDevice AND NT.idNotificationType = N.idNotificationType AND N.status = @type AND N.idUser = U.idUser AND U.rut = @rut"; 
+            
+
+             using (SqlConnection conn = new SqlConnection(connectionString: conex))
+             {
+                 
+               
+
+                    List<Data_PushBBVA.Notification> notification = new List<Data_PushBBVA.Notification>();
+
+                     SqlCommand command = new SqlCommand(sql, conn);
+
+                     command.Parameters.AddWithValue("@rut", rut);
+                     command.Parameters.AddWithValue("@type", type);
+
+                     conn.Open();
+
+                     SqlDataAdapter daAdaptador = new SqlDataAdapter(command);
+                     DataSet dtDatos = new DataSet();
+                     daAdaptador.Fill(dtDatos);
+
+                     foreach (DataRow _dr in dtDatos.Tables[0].Rows)
+                     {
+                         Data_PushBBVA.Notification Notifi = new Data_PushBBVA.Notification();
+                         Notifi.idNotification = int.Parse(_dr[0].ToString());
+                         Notifi.name = _dr[5].ToString() + " " + _dr[6].ToString();
+                         Notifi.create = DateTime.Parse(_dr[3].ToString());
+                         Notifi.delivery = DateTime.Parse(_dr[4].ToString());
+                         Notifi.tipo = _dr[2].ToString();
+                         Notifi.rut = _dr[7].ToString();
+                         Notifi.text = _dr[9].ToString();
+                         Notifi.title = _dr[8].ToString();
+                         Notifi.token = _dr[10].ToString();
+                         Notifi.plataform = _dr[11].ToString();
+
+
+                         notification.Add(Notifi);
+                     }
+
+
+                     return notification;
+                 
+             }
+
+        
+        
+        }
+
+        public static List<Data_PushBBVA.Notification> ListNotification(string type){
+
+
+            string sql = @"SELECT N.idNotification, N.status, NT.idNotificationType ,  N.creation, N.delivery, U.firstName, U.lastName, U.rut, NT.title, NT.text, D.token, P.description 
+                            FROM dbo.Notification N, dbo.Users U, dbo.NotificationType NT, dbo.Device D, dbo.Plataform P
+                            WHERE P.idPlataform = D.idPlataform  AND D.idDevice = N.idDevice AND NT.idNotificationType = N.idNotificationType AND N.idUser = U.idUser AND N.status = @type"; 
+           
+
+             using (SqlConnection conn = new SqlConnection(connectionString: conex))
+             {
+                 
+               
+
+                    List<Data_PushBBVA.Notification> notification = new List<Data_PushBBVA.Notification>();
+
+                     SqlCommand command = new SqlCommand(sql, conn);
+
+                   
+                     command.Parameters.AddWithValue("@type", type);
+
+                     conn.Open();
+
+                     SqlDataAdapter daAdaptador = new SqlDataAdapter(command);
+                     DataSet dtDatos = new DataSet();
+                     daAdaptador.Fill(dtDatos);
+
+                     foreach (DataRow _dr in dtDatos.Tables[0].Rows)
+                     {
+                         Data_PushBBVA.Notification Notifi = new Data_PushBBVA.Notification();
+                         Notifi.idNotification = int.Parse(_dr[0].ToString());
+                         Notifi.name = _dr[5].ToString() + " " + _dr[6].ToString();
+                         Notifi.create = DateTime.Parse(_dr[3].ToString());
+                         Notifi.delivery = DateTime.Parse(_dr[4].ToString());
+                         Notifi.tipo = _dr[2].ToString();
+                         Notifi.rut = _dr[7].ToString();
+                         Notifi.text = _dr[9].ToString();
+                         Notifi.title = _dr[8].ToString();
+                         Notifi.token = _dr[10].ToString();
+                         Notifi.plataform = _dr[11].ToString();
+
+
+                         notification.Add(Notifi);
+                     }
+
+
+                     return notification;
+                 
+             }
+
+        
+        
+        }
+
+        public static string UpdateDevice(string idDevice, string token) {
+
+            string createUser = @"UPDATE dbo.Device SET token = @token WHERE idDevice = @idDevice";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString: conex))
+                {
+                    SqlCommand command = new SqlCommand(createUser, conn);
+                    command.Parameters.AddWithValue("@idDevice", idDevice);
+                    command.Parameters.AddWithValue("@token", token);
+                    conn.Open();
+                    command.ExecuteScalar();
+
+                    return "Success";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Error";
+            }
+            
+        }
+
+        public static List<Data_PushBBVA.NotificationUser> ListSetting(string rut) {
+
+
+            string sql = @"SELECT NTU.status, NT.title, NT.idNotificationType
+FROM dbo.Users U, dbo.NotificationType NT, dbo.User_NotificationType NTU
+WHERE NT.idNotificationType = NTU.idNotificationType AND NTU.idUser = U.idUser AND U.rut = @rut";
+
+
+            using (SqlConnection conn = new SqlConnection(connectionString: conex))
+            {
+
+
+
+                List<Data_PushBBVA.NotificationUser> Setting = new List<Data_PushBBVA.NotificationUser>();
+
+                SqlCommand command = new SqlCommand(sql, conn);
+
+
+                command.Parameters.AddWithValue("@rut", rut);
+
+                conn.Open();
+
+                SqlDataAdapter daAdaptador = new SqlDataAdapter(command);
+                DataSet dtDatos = new DataSet();
+                daAdaptador.Fill(dtDatos);
+
+                foreach (DataRow _dr in dtDatos.Tables[0].Rows)
+                {
+                    Data_PushBBVA.NotificationUser setting = new Data_PushBBVA.NotificationUser();
+                    setting.status = _dr[0].ToString();
+                    setting.title = _dr[1].ToString();
+                    setting.idNotificationType = int.Parse(_dr[2].ToString());
+                    Setting.Add(setting);
+                }
+
+
+                return Setting;
+
+            }
+
+        
         
         }
       

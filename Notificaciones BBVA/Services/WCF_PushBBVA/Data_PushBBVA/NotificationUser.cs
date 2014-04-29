@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Data_PushBBVA
 {
-    public class NotificationType
+    public class NotificationUser
     {
         private int _idNotificationType;
         public int idNotificationType
@@ -14,18 +14,18 @@ namespace Data_PushBBVA
             set { _idNotificationType = value; }
         }
 
-        private string _description;
-        public string description
+        private string _title;
+        public string title
         {
-            get { return _description; }
-            set { _description = value; }
+            get { return _title; }
+            set { _title = value; }
         }
 
-        private string _text;
-        public string text
+        private string _status;
+        public string status
         {
-            get { return _text; }
-            set { _text = value; }
+            get { return _status; }
+            set { _status = value; }
         }
     }
 }

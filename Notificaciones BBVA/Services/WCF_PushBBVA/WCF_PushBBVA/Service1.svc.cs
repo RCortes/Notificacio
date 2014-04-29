@@ -40,6 +40,33 @@ namespace WCF_PushBBVA
             return Create;
         }
 
+        public List<Notification> DoWork5(String rut, String type) 
+        { 
+            List<Notification> Lista = SQLConnection.List(rut, type);
+            return Lista;
+
+        }
+
+        public List<Notification> DoWork6(String type)
+        {
+            List<Notification> Lista = SQLConnection.ListNotification(type);
+            return Lista;
+
+        }
+
+        public string DoWork7(String idDevice, String token)
+        {
+            string result = SQLConnection.UpdateDevice(idDevice, token);
+            return result;
+        }
+
+        public List<NotificationUser> DoWork8(String rut)
+        {
+            List<NotificationUser> Lista = SQLConnection.ListSetting(rut);
+            return Lista;
+
+        }
+
         public String QuitarCarac(String rut)
         {
             rut = rut.Replace("-", "");

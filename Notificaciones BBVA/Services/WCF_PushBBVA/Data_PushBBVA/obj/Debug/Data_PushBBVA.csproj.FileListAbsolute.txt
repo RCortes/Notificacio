@@ -7,3 +7,7 @@ Z:\Documents\Visual Studio 2010\Projects\WCF_PushBBVA\Data_PushBBVA\obj\Debug\Da
 \\psf\Home\Documents\Visual Studio 2010\Projects\WCF_PushBBVA\Data_PushBBVA\bin\Debug\Data_PushBBVA.pdb
 \\psf\Home\Documents\Visual Studio 2010\Projects\WCF_PushBBVA\Data_PushBBVA\obj\Debug\Data_PushBBVA.dll
 \\psf\Home\Documents\Visual Studio 2010\Projects\WCF_PushBBVA\Data_PushBBVA\obj\Debug\Data_PushBBVA.pdb
+Z:\Github\Notificacio\Notificaciones BBVA\Services\WCF_PushBBVA\Data_PushBBVA\bin\Debug\Data_PushBBVA.dll
+Z:\Github\Notificacio\Notificaciones BBVA\Services\WCF_PushBBVA\Data_PushBBVA\bin\Debug\Data_PushBBVA.pdb
+Z:\Github\Notificacio\Notificaciones BBVA\Services\WCF_PushBBVA\Data_PushBBVA\obj\Debug\Data_PushBBVA.dll
+Z:\Github\Notificacio\Notificaciones BBVA\Services\WCF_PushBBVA\Data_PushBBVA\obj\Debug\Data_PushBBVA.pdb

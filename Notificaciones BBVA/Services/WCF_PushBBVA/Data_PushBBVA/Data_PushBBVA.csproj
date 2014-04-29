@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Login.cs" />
+    <Compile Include="Notification.cs" />
     <Compile Include="NotificationType.cs" />
+    <Compile Include="NotificationUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

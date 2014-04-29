@@ -39,27 +39,29 @@ namespace Push_Notification
             var appleCert = File.ReadAllBytes(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Certificados.p12"));
             push.RegisterAppleService(new ApplePushChannelSettings(false, appleCert, "q1w2e3r4")); 
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
                 push.QueueNotification(new AppleNotification()
                                            .ForDeviceToken("3290a71fec3cbb5baaf13dda7b465b82d7f4c552e9a8f69daf9f2679afb6b74d")
-                                           .WithAlert("Hello Rodo, how are you?!! " + i)
+                                           .WithAlert("Hello, how are you? " + i)
                                            .WithBadge(-1)
                                            .WithSound("sound.caf"));
 
+                
                
             }
 
 
             //// ANDROID
 
-            
-            //push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyBbsQnPByBI484hHMLOC_FRLowkIKqlWO0"));
-            //push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("APA91bHlrbYHS9T-fKoFHYXejLitdKjpQTE0W46p_UqOjpfQcFPPOiiAaEScmWdq_CfsOTgGRScuzOA7TNDYI7BYqgdE3_YkFJncsE3qIDeeuX75CWhco_h6iMnqA7_jO-W9ldxyqL6qxC2pZbE73QYSiS1X6htmuQ")
-            //                      .WithJson("{\"alert\":\"Hello World!\",\"badge\":7,\"sound\":\"sound.caf\"}"));
-			
+            for (int i = 0; i < 10; i++)
+            {
+                push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyBbsQnPByBI484hHMLOC_FRLowkIKqlWO0"));
+                push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("APA91bHlrbYHS9T-fKoFHYXejLitdKjpQTE0W46p_UqOjpfQcFPPOiiAaEScmWdq_CfsOTgGRScuzOA7TNDYI7BYqgdE3_YkFJncsE3qIDeeuX75CWhco_h6iMnqA7_jO-W9ldxyqL6qxC2pZbE73QYSiS1X6htmuQ").ForDeviceRegistrationId("APA91bHlrbYHS9T-fKoFHYXejLitdKjpQTE0W46p_UqOjpfQcFPPOiiAaEScmWdq_CfsOTgGRScuzOA7TNDYI7BYqgdE3_YkFJncsE3qIDeeuX75CWhco_h6iMnqA7_jO-W9ldxyqL6qxC2pZbE73QYSiS1X6htmuQ")
+                                .WithJson("{\"alert\":\"Hello CHE!\",\"badge\":7,\"sound\":\"sound.caf\"}"));
 
 
+            }
             Console.WriteLine("Waiting for Queue to Finish...");
             push.StopAllServices();
             Console.WriteLine("Queue Finished, press return to exit...");

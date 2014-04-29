@@ -40,7 +40,34 @@ namespace WCF_PushBBVA
             UriTemplate = "CreateUser/{user},{idDevice}")]
         String DoWork4(string user, string idDevice);
 
-        
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Xml,
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            UriTemplate = "Notification/{rut},{type}")]
+        List<Notification> DoWork5(string rut, string type);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Xml,
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            UriTemplate = "NotificationAll/{type}")]
+        List<Notification> DoWork6(string type);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Xml,
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            UriTemplate = "Token/{idDevice},{token}")]
+        String DoWork7(string idDevice, string token);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Xml,
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            UriTemplate = "ListSetting/{rut}")]
+        List<NotificationUser> DoWork8(string rut);
+
         //[OperationContract]
         //[WebInvoke(Method = "GET",
         //    ResponseFormat = WebMessageFormat.Json,
