@@ -36,38 +36,43 @@ namespace Push_Notification
             push.OnChannelDestroyed += ChannelDestroyed;
 
 
-            XmlDocument data = new XmlDocument();
-            data.Load("http://localhost:49167/Service1.svc/NotificationAll/0");
-            Notificaciones = data.GetElementsByTagName("Notification");
-            int total = Notificaciones.Count;
+         //   XmlDocument data = new XmlDocument();
+            //data.Load("http://localhost:49167/Service1.svc/NotificationAll/0");
+            //Notificaciones = data.GetElementsByTagName("Notification");
+            //int total = Notificaciones.Count;
 
             var appleCert = File.ReadAllBytes(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Certificados.p12"));
             push.RegisterAppleService(new ApplePushChannelSettings(false, appleCert, "q1w2e3r4"));
+            push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyBbsQnPByBI484hHMLOC_FRLowkIKqlWO0"));
 
-            for(i = 0; i < total-1; i++)
+            //for(i = 0; i < total-1; i++)
+            //{
+
+
+                //if (Notificaciones[i].ChildNodes[4].InnerText == "iOS")
+                //{
+                //    ////  APPLE
+
+            for (int i = 0; i <= 30; i++)
             {
+                push.QueueNotification(new AppleNotification()
+                                           .ForDeviceToken("3290a71fec3cbb5baaf13dda7b465b82d7f4c552e9a8f69daf9f2679afb6b74d")
+                                           .WithAlert("Hola Rodolfo Como estas? _" + i)
+                                           .WithBadge(-1)
+                                           .WithSound("sound.caf"));
 
-
-                if (Notificaciones[i].ChildNodes[4].InnerText == "iOS")
-                {
-                    ////  APPLE
-                   
-                      
-                        push.QueueNotification(new AppleNotification()
-                                                   .ForDeviceToken(Notificaciones[i].ChildNodes[9].InnerText)
-                                                   .WithAlert(Notificaciones[i].ChildNodes[3].InnerText + " " + Notificaciones[i].ChildNodes[8].InnerText + " " + Notificaciones[i].ChildNodes[6].InnerText)
-                                                   .WithBadge(-1)
-                                                   .WithSound("sound.caf"));
-                        
-                    
-
-                }else if(Notificaciones[i].ChildNodes[4].InnerText == "Android"){
-
-
-
-                }
-                
             }
+
+  //          //    }else if(Notificaciones[i].ChildNodes[4].InnerText == "Android"){
+
+
+  //          for (int i = 0; i < 15; i++)
+  //          {
+  //              push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("APA91bF17D0nVf-bp0Le3f5mqmxfZFRYs3Pxmfn9yib0LCVCvSjgUL3sYut814rrdSmQ0xq_w_tU2livvAfIH0pNafBY6WAG-NEdKiwc1vCtFT46v4Cqw5RVXFFaoNjXonbo4uPpvNJGqEvoEq9N3gWEqNn7d2Ya")
+  //                                    .WithJson("{\"alert\":\"Hello World!\",\"badge\":7,\"sound\":\"sound.caf\"}"));
+  //              //}
+  //          }
+  ////          }
             Console.WriteLine("Waiting for Queue to Finish...");
             push.StopAllServices();
             Console.WriteLine("enviados: " + enviado + " perdidos: " + error);
@@ -86,7 +91,7 @@ namespace Push_Notification
 		{
 			Console.WriteLine("Sent: " + sender + " -> " + notification);
             enviado = enviado + 1;
-            Console.WriteLine("Sent: " +Notificaciones[i].ChildNodes[9].InnerText);
+          //  Console.WriteLine("Sent: " +Notificaciones[i].ChildNodes[9].InnerText);
            // System.Threading.Thread.Sleep(1000);
         }
 
@@ -94,7 +99,7 @@ namespace Push_Notification
 		{
 			Console.WriteLine("Failure: " + sender + " -> " + notificationFailureException.Message + " -> " + notification);
             error = error + 1;
-            Console.WriteLine("Error:" + Notificaciones[i].ChildNodes[9].InnerText);
+           // Console.WriteLine("Error:" + Notificaciones[i].ChildNodes[9].InnerText);
            // System.Threading.Thread.Sleep(1000);
 		}
 

@@ -67,6 +67,12 @@ namespace WCF_PushBBVA
 
         }
 
+        public Data_PushBBVA.Status<string> DoWork9()
+        {
+            Data_PushBBVA.Status<string> status = SQLConnection.ArchUserSetting();
+            return status;
+        }
+
         public String QuitarCarac(String rut)
         {
             rut = rut.Replace("-", "");

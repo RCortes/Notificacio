@@ -6,13 +6,15 @@ using System.Configuration;
 using Npgsql;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
+using System.IO;
 
 namespace Connection_PushBBVA
 {
     public class SQLConnection
     {
 
-        public static string conex = "Data Source=RODOLFOCORT6393;Initial Catalog=BBVA;Persist Security Info=True;User ID=sa;Password=q1w2e3";
+        public static string conex = "Data Source=RODOLFOCORT6393;Initial Catalog=Notifi;Persist Security Info=True;User ID=sa;Password=q1w2e3";
         
 
         public static bool Login(string user, string pass)
@@ -444,6 +446,135 @@ WHERE NT.idNotificationType = NTU.idNotificationType AND NTU.idUser = U.idUser A
         
         
         }
-      
+
+        public static Data_PushBBVA.Status<string> ArchUserSetting()
+        {
+            Data_PushBBVA.Status<string> status = new Data_PushBBVA.Status<string>();
+
+            string Users = "";
+            int i = 0;
+
+            List<string> User = new List<string>();
+
+            string users = @"Select rut FROM dbo.Users WHERE status = 1";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString: conex))
+                {
+                    SqlCommand command = new SqlCommand(users, conn);
+                    conn.Open();
+                    SqlDataAdapter daAdaptador = new SqlDataAdapter(command);
+                    DataSet dtDatos = new DataSet();
+                    daAdaptador.Fill(dtDatos);
+
+
+                    foreach (DataRow _dr in dtDatos.Tables[0].Rows)
+                    { 
+                        string user = _dr[0].ToString();
+
+                        Users = user + ";";
+                        try 
+                        {
+                            string Types = @"SELECT * FROM dbo.NotificationType_Users NTU, dbo.Users U WHERE  NTU.idUsers = U.idUsers AND U.rut = @rut";
+                       
+                            using (SqlConnection conn2 = new SqlConnection(connectionString: conex))
+                            {
+                                SqlCommand command2 = new SqlCommand(Types, conn2);
+                                command2.Parameters.AddWithValue("@rut", user);
+                                conn2.Open();
+                                SqlDataAdapter daAdaptador2 = new SqlDataAdapter(command2);
+                                DataSet dtDatos2 = new DataSet();
+                                daAdaptador2.Fill(dtDatos2);
+                                foreach (DataRow _dr2 in dtDatos2.Tables[0].Rows)
+                                {
+                                    if (_dr2[2].ToString() == "True")
+                                    {
+                                        Users += 1 + ";";
+                                    }
+                                    else 
+                                    {
+                                        Users += 0 + ";";
+                                    }
+                                }
+                            }
+
+                        }
+                        catch(Exception ex)
+                        {
+                            status.status = "Error";
+                            status.description = ex.Message;
+                        }
+
+                        User.Add(Users);
+                  
+                    }
+                    try
+                    {
+                        //i = 0;
+                        List<string> reads = new List<string>();
+                        //string[] reads = new string[i];
+                        //StreamReader read;
+                        StreamWriter write;
+
+                      //  read = new StreamReader("Z://setting.txt");
+                     //
+                     //   while (!read.EndOfStream)
+                     //   {
+                     //       reads.Add(Convert.ToString(read.ReadLine()));
+                     //       // i++;
+                     //   }
+                     //   read.Close();
+                     //
+                        write = new StreamWriter("Z://setting.txt");
+
+                        for (i = 0; i < User.Count - 1; i++)
+                        {
+                            write.WriteLine(User[i]);
+                        }
+                        write.Close();
+                    }
+                    catch (Exception ex) 
+                    {
+                        status.status = "Error";
+                        status.description = ex.Message;
+                    }
+
+                }
+
+                status.status = "Success";
+            }
+            catch (Exception ex)
+            {
+                status.status = "Error";
+                status.description = ex.Message;
+            }
+
+            return status;         
+        }
+
+        public static Data_PushBBVA.Status<string> ArchNitification()
+        {
+            Data_PushBBVA.Status<string> status = new Data_PushBBVA.Status<string>();
+
+            List<string> reads = new List<string>();
+           
+            StreamReader read;
+
+            read = new StreamReader("Z://Notification.txt");
+
+            while (!read.EndOfStream)
+            {
+                reads.Add(Convert.ToString(read.ReadLine()));
+            }
+            read.Close();
+            
+
+
+
+
+            status.status = "Success";
+            return status;
+        }
+
     }
 }

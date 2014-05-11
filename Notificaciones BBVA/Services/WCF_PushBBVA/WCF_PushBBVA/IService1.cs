@@ -68,6 +68,14 @@ namespace WCF_PushBBVA
             UriTemplate = "ListSetting/{rut}")]
         List<NotificationUser> DoWork8(string rut);
 
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Xml,
+            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            UriTemplate = "UserSetting")]
+        Status<string> DoWork9();
+
         //[OperationContract]
         //[WebInvoke(Method = "GET",
         //    ResponseFormat = WebMessageFormat.Json,
